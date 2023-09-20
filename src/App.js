@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import axios from 'axios';
+
+const URL = "https://random-data-api.com/api/v2/beers"
 
 function App() {
+  const [brand,setBrand] = useState ('')
+  const [name,setName] = useState ('')
+  const [style,setStyle] = useState ('')
+  const [alcohol, setAlcohol] = useState('')
+
+  useEffect(() => {
+    axios.get(URL)
+    .then((response)=> {
+      //console.log(response.data)
+      setBrand(response.data.brand)
+      setName(response.data.name)
+      setStyle(response.data.style)
+      setAlcohol(response.data.alcohol)
+    }).catch((error) => {
+      alert(error)
+    })
+  }, [])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h3>Randomly selected beer</h3>
+      <p>Brand: {brand}</p>
+      <p>Name: {name}</p>
+      <p>Style: {style}</p>
+      <p>Alcohol: {alcohol}</p>
     </div>
   );
 }
